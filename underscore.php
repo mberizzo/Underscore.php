@@ -545,9 +545,13 @@ class __ {
     $result = array();
     $collection = (array) $collection;
     foreach($collection as $k=>$v) {
+      if (gettype($v) == 'object') {
+        $v = (array)$v;
+        $obj = true;
+      }
       $key = (is_callable($iterator)) ? $iterator($v, $k) : $v[$iterator];
       if(!array_key_exists($key, $result)) $result[$key] = array();
-      $result[$key][] = $v;
+      $result[$key][] = $obj ? (object)$v : $v;
     }
     return $result;
   }
